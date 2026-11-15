@@ -1,0 +1,20 @@
+# Runs the full PySpark flow on synthetic data; no keys or models needed.
+name: ci
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 3 * * 1"   # weekly: catch breakage from dependency/runtime changes
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv python install
+      - run: uv sync --locked
+      - run: uv run pytest -q
+        env:
+          # ubuntu-latest ships JDK 21 preinstalled
+          JAVA_HOME: /usr/lib/jvm/temurin-21-jdk-amd64
