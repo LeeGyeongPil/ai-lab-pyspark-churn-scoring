@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-lab-pyspark-churn-scoring"
+version = "0.1.0"
+description = "PySpark series part 4/5: customer activity logs to churn probabilities, AUC/PR-AUC, a profit-based threshold and a batch-scored target list, on one laptop."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.12"
+dependencies = [
+    "pyspark==4.3.0",
+    "numpy==2.5.4",
+]
+
+[project.scripts]
+churn = "churn_scoring.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/churn_scoring"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
